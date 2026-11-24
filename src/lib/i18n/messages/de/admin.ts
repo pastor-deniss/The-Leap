@@ -352,7 +352,7 @@ export const admin: AdminMessages = {
       prayer_points: "Gebetspunkte",
     },
     heading: "Übersetzungen",
-    intro: "Glaubensreisen, Andachten und Ankündigungen werden beim Speichern automatisch von der KI übersetzt und veröffentlicht. Hier kannst du eine Übersetzung korrigieren und veröffentlichen. Ändert sich später der englische Text, wird neu übersetzt.",
+    intro: "Glaubensreisen, Andachten und Ankündigungen werden hier von der KI übersetzt und sofort veröffentlicht. Übersetze einen Eintrag oder alles Fehlende auf einmal. Hier kannst du eine Übersetzung korrigieren und veröffentlichen. Ändert sich später der englische Text, übersetze ihn neu.",
     glossaryLink: "Glossar",
     migrationMissing: "Die Übersetzungstabellen sind noch nicht eingerichtet. Führe Migration 0039 (und 0040 für das Glossar) in Supabase aus.",
     outdated: "Veraltet",

@@ -352,7 +352,7 @@ export const admin: AdminMessages = {
       prayer_points: "Vipengele vya maombi",
     },
     heading: "Tafsiri",
-    intro: "Safari, ibada na matangazo hutafsiriwa na AI na kuchapishwa moja kwa moja kila yanapohifadhiwa. Rekebisha tafsiri hapa kisha uichapishe. Kiingereza kikibadilika baadaye, hutafsiriwa upya.",
+    intro: "Safari, ibada na matangazo hutafsiriwa na AI hapa na kuchapishwa moja kwa moja. Tafsiri kipengele kimoja, au vyote vilivyobaki kwa pamoja. Rekebisha tafsiri hapa kisha uichapishe. Kiingereza kikibadilika baadaye, tafsiri upya.",
     glossaryLink: "Kamusi ya istilahi",
     migrationMissing: "Majedwali ya tafsiri bado hayajaandaliwa. Endesha migration 0039 (na 0040 kwa kamusi) kwenye Supabase.",
     outdated: "Imepitwa na wakati",

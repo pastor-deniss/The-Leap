@@ -352,7 +352,7 @@ export const admin: AdminMessages = {
       prayer_points: "Sujets de prière",
     },
     heading: "Traductions",
-    intro: "Les parcours, méditations et annonces sont traduits par l’IA et publiés automatiquement à chaque enregistrement. Corrige une traduction ici puis publie-la. Si le texte anglais change plus tard, il est traduit à nouveau.",
+    intro: "Les parcours, méditations et annonces sont traduits ici par l’IA et publiés aussitôt. Traduis un élément, ou tout ce qui manque d’un coup. Corrige une traduction ici puis publie-la. Si le texte anglais change plus tard, traduis-le à nouveau.",
     glossaryLink: "Glossaire",
     migrationMissing: "Les tables de traduction ne sont pas encore en place. Exécute la migration 0039 (et 0040 pour le glossaire) dans Supabase.",
     outdated: "Obsolète",

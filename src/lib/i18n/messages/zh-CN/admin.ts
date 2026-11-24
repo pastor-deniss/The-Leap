@@ -341,7 +341,7 @@ export const admin: AdminMessages = {
       prayer_points: "代祷事项",
     },
     heading: "翻译",
-    intro: "旅程、灵修和公告在每次保存时都会由 AI 自动翻译并发布。你可以在这里修改译文并发布。之后若英文原文有改动，会重新翻译。",
+    intro: "旅程、灵修和公告在这里由 AI 翻译并立即发布。可以翻译单个条目，也可以一次翻译所有缺失的内容。你可以在这里修改译文并发布。之后若英文原文有改动，请重新翻译。",
     glossaryLink: "术语表",
     migrationMissing: "翻译数据表尚未建立。请在 Supabase 中运行迁移 0039（术语表还需运行 0040）。",
     outdated: "已过时",

@@ -352,7 +352,7 @@ export const admin: AdminMessages = {
       prayer_points: "Motivos de oración",
     },
     heading: "Traducciones",
-    intro: "Los recorridos, devocionales y anuncios se traducen con IA y se publican automáticamente cada vez que se guardan. Corrige aquí una traducción y publícala. Si el inglés cambia más adelante, se vuelve a traducir.",
+    intro: "Los recorridos, devocionales y anuncios se traducen aquí con IA y se publican al momento. Traduce un elemento o todo lo que falta de una vez. Corrige aquí una traducción y publícala. Si el inglés cambia más adelante, vuelve a traducirlo.",
     glossaryLink: "Glosario",
     migrationMissing: "Las tablas de traducción aún no están configuradas. Ejecuta la migración 0039 (y la 0040 para el glosario) en Supabase.",
     outdated: "Desactualizado",

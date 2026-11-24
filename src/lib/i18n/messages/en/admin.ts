@@ -366,7 +366,7 @@ export const admin = {
       prayer_points: "Prayer points",
     },
     heading: "Translations",
-    intro: "Journeys, devotions and announcements are translated by AI and published automatically whenever they're saved. Correct a translation here and publish it. If the English changes later, it's translated afresh.",
+    intro: "Journeys, devotions and announcements are translated by AI here and published straight away. Translate one item, or everything missing at once. Correct a translation here and publish it. If the English changes later, translate it again.",
     glossaryLink: "Glossary",
     migrationMissing: "The translation tables aren't set up yet. Run migration 0039 (and 0040 for the glossary) in Supabase.",
     outdated: "Outdated",

@@ -7,7 +7,7 @@ Two kinds of text are translated differently:
 | | Interface text (buttons, labels, headings, errors) | Teaching content (journeys, journey days, devotions, announcements) |
 |---|---|---|
 | Lives in | `src/lib/i18n/messages/<locale>/*.ts` | `*_localizations` tables in Supabase (migration 0039) |
-| Written by | Developers (AI-drafted, checked by native speakers) | AI, automatically, whenever the English is saved |
+| Written by | Developers (AI-drafted, checked by native speakers) | AI, from Admin → Translations (on save too if `AUTO_TRANSLATE_ON_SAVE=on`) |
 | Goes live | When deployed, without formal approval | Immediately (automatic publishing); admins correct afterwards |
 | If missing | Compile error (can't happen in production) | The English original, with a "Not yet translated" notice |
 
@@ -42,10 +42,12 @@ Changing language anywhere (welcome screen, sign-in, Profile, the suggestion) go
 
 ## Translating and publishing content (admins)
 
-Translation is automatic. Saving a journey, journey day, devotion or announcement in the admin translates it into every language in the background, and each translation is published straight away. Saving never waits for this; it takes about a minute.
+**Translating on save is off** (since 2026-11-24, to stop AI spend while the app is English-first). Translate from **Admin → Translations** instead; each AI translation is published straight away.
+
+To turn it back on, set `AUTO_TRANSLATE_ON_SAVE=on` in Vercel and redeploy. Then saving a journey, journey day, devotion or announcement in the admin translates it into every language in the background. Saving never waits for this; it takes about a minute.
 
 - **Unchanged text costs nothing.** A language whose published translation already matches the current English is skipped.
-- **When the English changes,** the item is translated afresh on save. This replaces any hand correction in that language, so re-apply important corrections after big edits, or put the term in the glossary.
+- **When the English changes,** the item is marked outdated and translated afresh by the bulk button (or on save, if that is on). This replaces any hand correction in that language, so re-apply important corrections after big edits, or put the term in the glossary.
 - **If the AI leaves out part of an item,** that language is saved as *awaiting review* instead of published, and readers keep the English until an admin completes it.
 - **If translation fails** (for example the Anthropic account is out of credit), readers see the English original with a "not yet translated" notice. Failures are logged on Vercel.
 

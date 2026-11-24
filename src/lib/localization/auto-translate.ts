@@ -136,8 +136,12 @@ export async function translateIntoAllLanguages(
  * after the response is sent, so saving never waits for the AI. Failures
  * are logged and show in Admin → Translations, where "Translate everything
  * missing" retries them.
+ *
+ * Off unless AUTO_TRANSLATE_ON_SAVE=on (turned off 2026-11-24 to stop AI
+ * spend while English-only is enough). Admin → Translations still works.
  */
 export function translateInBackground(supabase: SupabaseClient, type: ContentType, id: string | null | undefined) {
+  if (process.env.AUTO_TRANSLATE_ON_SAVE !== "on") return;
   if (!id) return;
   after(() => translateIntoAllLanguages(supabase, type, id));
 }
