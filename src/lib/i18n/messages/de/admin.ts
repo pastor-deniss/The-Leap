@@ -152,7 +152,7 @@ export const admin: AdminMessages = {
     editHeading: "Ankündigung bearbeiten",
     newHeading: "Neue Ankündigung",
     intro:
-      "Auf der Startseite wird von jeder Art immer nur eine Ankündigung gezeigt – ein Gebetsaufruf, Neuigkeiten, eine Veranstaltung, eine Werbung und eine allgemeine Mitteilung –, und man wischt zwischen ihnen hin und her. Wenn du eine aktivierst, ersetzt sie die laufende derselben Art.",
+      "Die Startseite zeigt jeweils einen Gebetsaufruf, eine Neuigkeit, eine Veranstaltung und eine allgemeine Mitteilung sowie bis zu drei Werbungen, und man wischt zwischen ihnen hin und her. Wenn du eine aktivierst, ersetzt sie die laufende derselben Art – bei Werbungen, sobald drei laufen, die, die am frühesten endet.",
     create: "Ankündigung erstellen",
     empty: "Noch keine Ankündigungen – erstelle oben die erste.",
     active: "Aktiv",

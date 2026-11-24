@@ -6,6 +6,7 @@ import { requireAdmin } from "@/lib/supabase/authorize";
 import { translateInBackground } from "@/lib/localization/auto-translate";
 import {
   ANNOUNCEMENT_IMAGE_BUCKET,
+  ANNOUNCEMENT_LIVE_LIMIT,
   isAnnouncementKind,
   sanitizeAnnouncementLink,
 } from "@/lib/supabase/announcements";
@@ -270,8 +271,10 @@ export async function updateAnnouncement(id: string, formData: FormData) {
   revalidateAnnouncement();
 }
 
-// One announcement of each kind is featured at a time (Home swipes between
-// them), so activating one archives whichever of the same kind was live.
+// Each kind has a number of live slots on Home (one, or three for
+// adverts — see ANNOUNCEMENT_LIVE_LIMIT), and Home swipes between them.
+// Activating one when its kind is full archives the live one of that kind
+// closest to expiring.
 export async function activateAnnouncement(id: string, formData: FormData) {
   const { supabase } = await requireAdmin();
 
@@ -287,20 +290,39 @@ export async function activateAnnouncement(id: string, formData: FormData) {
     .eq("id", id)
     .maybeSingle<{ kind: string }>();
 
-  if (kindError || !target) {
+  if (kindError || !target || !isAnnouncementKind(target.kind)) {
     console.error("Failed to load announcement to activate", kindError);
     return;
   }
 
-  const { error: archiveError } = await supabase
+  const { data: liveOthers, error: liveError } = await supabase
     .from("prayer_movements")
-    .update({ status: "archived" })
+    .select("id")
     .eq("status", "active")
     .eq("kind", target.kind)
-    .neq("id", id);
+    .neq("id", id)
+    .order("active_until", { ascending: true, nullsFirst: true })
+    .order("created_at", { ascending: true })
+    .returns<{ id: string }[]>();
 
-  if (archiveError) {
-    console.error("Failed to archive previous announcement", archiveError);
+  if (liveError) {
+    console.error("Failed to load live announcements", liveError);
+  }
+
+  const others = liveOthers ?? [];
+  const toArchive = others
+    .slice(0, Math.max(others.length - (ANNOUNCEMENT_LIVE_LIMIT[target.kind] - 1), 0))
+    .map((row) => row.id);
+
+  if (toArchive.length > 0) {
+    const { error: archiveError } = await supabase
+      .from("prayer_movements")
+      .update({ status: "archived" })
+      .in("id", toArchive);
+
+    if (archiveError) {
+      console.error("Failed to archive previous announcement", archiveError);
+    }
   }
 
   const { error } = await supabase

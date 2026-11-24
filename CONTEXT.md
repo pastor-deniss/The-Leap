@@ -61,7 +61,7 @@ A post in the Prayer Room. Always owned by its author, but independently public/
 _Avoid_: Prayer (ambiguous alone), request
 
 **Announcement**:
-An admin-curated card in the featured window on Home. It has a kind — Prayer, News, Event, Advert or General — and at most one of each kind is live at once, for a set number of days; people swipe between them, always in the order Prayer, Event, News, General, Advert. A Prayer announcement is what was formerly called a prayer movement: it also appears in the Prayer Room with its prayer points and "I have prayed" count. (Stored in the `prayer_movements` table for historical reasons.)
+An admin-curated card in the featured window on Home. It has a kind — Prayer, News, Event, Advert or General — and at most one of each kind is live at once (except Adverts, up to three), for a set number of days; people swipe between them, always in the order Prayer, Event, News, General, then the Adverts. A Prayer announcement is what was formerly called a prayer movement: it also appears in the Prayer Room with its prayer points and "I have prayed" count. (Stored in the `prayer_movements` table for historical reasons.)
 _Avoid_: Banner, popup, notification (reserved for push/in-app notifications)
 
 **Ask PD**:

@@ -152,7 +152,7 @@ export const admin: AdminMessages = {
     editHeading: "Modifier l'annonce",
     newHeading: "Nouvelle annonce",
     intro:
-      "Une annonce de chaque type s'affiche à l'accueil à la fois — un mouvement de prière, une actualité, un événement, une publicité et un message général — et on glisse de l'une à l'autre. En activer une remplace celle du même type qui est en ligne.",
+      "L'accueil affiche à la fois un mouvement de prière, une actualité, un événement et un message général, plus jusqu'à trois publicités, et on glisse de l'une à l'autre. En activer une remplace celle du même type qui est en ligne — pour les publicités, quand trois sont en ligne, celle qui se termine le plus tôt.",
     create: "Créer l'annonce",
     empty: "Aucune annonce pour l'instant — crée la première ci-dessus.",
     active: "Active",

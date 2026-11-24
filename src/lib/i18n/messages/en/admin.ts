@@ -162,7 +162,7 @@ export const admin = {
     editHeading: "Edit announcement",
     newHeading: "New announcement",
     intro:
-      "One of each kind shows on Home at a time — a prayer movement, news, an event, an advert and a general message — and people swipe between them. Activating one replaces the live one of the same kind.",
+      "Home shows one prayer movement, one piece of news, one event and one general message at a time, plus up to three adverts, and people swipe between them. Activating one replaces the live one of the same kind — for adverts, once three are live, the one closest to ending.",
     create: "Create announcement",
     empty: "No announcements yet — create the first one above.",
     active: "Active",

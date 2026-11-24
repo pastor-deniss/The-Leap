@@ -4,7 +4,8 @@ import { unstable_cache } from "next/cache";
 
 // An Announcement is one card in the featured window on Home: a prayer
 // movement, a piece of news, an event, an advert or a general message. One
-// of each kind can be live at a time; people swipe between them. Stored in the
+// of each kind (up to three adverts) can be live at a time; people swipe
+// between them. Stored in the
 // `prayer_movements` table (it began life as prayer-only — see migration
 // 0036), so a 'prayer' announcement is exactly what used to be called a
 // prayer movement.
@@ -16,6 +17,7 @@ import { localizeRows } from "@/lib/localization/content";
 export {
   ANNOUNCEMENT_KINDS,
   ANNOUNCEMENT_KIND_LABELS,
+  ANNOUNCEMENT_LIVE_LIMIT,
   isAnnouncementKind,
   sanitizeAnnouncementLink,
   type AnnouncementKind,
@@ -43,8 +45,8 @@ export const ANNOUNCEMENT_COLUMNS =
 
 export const ANNOUNCEMENT_IMAGE_BUCKET = "announcement-images";
 
-// The featured announcements on Home: at most one of each kind (prayer,
-// event, news, general, advert), in that fixed order, so people can swipe
+// The featured announcements on Home: one of each kind and up to three
+// adverts (prayer, event, news, general, adverts), in that fixed order, so people can swipe
 // between them. One with an `active_until` in the past is treated as
 // expired and excluded here, even though its row is still
 // `status = 'active'` — the admin has to re-activate it (with a fresh day

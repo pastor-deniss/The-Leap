@@ -29,24 +29,33 @@ export const ANNOUNCEMENT_DISPLAY_ORDER: readonly AnnouncementKind[] = [
   "advert",
 ];
 
+// How many of each kind can be live on Home at once. Adverts get several
+// slots so more than one sponsor or offer can run together; every other
+// kind is one at a time.
+export const ANNOUNCEMENT_LIVE_LIMIT: Record<AnnouncementKind, number> = {
+  prayer: 1,
+  event: 1,
+  news: 1,
+  general: 1,
+  advert: 3,
+};
+
 /**
- * The announcements Home features: at most one of each kind (the newest,
- * should two of a kind ever be active together), in display order.
+ * The announcements Home features: up to each kind's live limit (the
+ * newest first, should more than that ever be active together), grouped in
+ * display order.
  */
 export function pickFeaturedAnnouncements<
   T extends { kind: AnnouncementKind; created_at: string },
 >(rows: readonly T[]): T[] {
-  const newestByKind = new Map<AnnouncementKind, T>();
-  for (const row of rows) {
-    const current = newestByKind.get(row.kind);
-    if (!current || row.created_at > current.created_at) {
-      newestByKind.set(row.kind, row);
-    }
-  }
-  return ANNOUNCEMENT_DISPLAY_ORDER.flatMap((kind) => {
-    const row = newestByKind.get(kind);
-    return row ? [row] : [];
-  });
+  const newestFirst = [...rows].sort((a, b) =>
+    b.created_at.localeCompare(a.created_at),
+  );
+  return ANNOUNCEMENT_DISPLAY_ORDER.flatMap((kind) =>
+    newestFirst
+      .filter((row) => row.kind === kind)
+      .slice(0, ANNOUNCEMENT_LIVE_LIMIT[kind]),
+  );
 }
 
 export function isAnnouncementKind(value: unknown): value is AnnouncementKind {

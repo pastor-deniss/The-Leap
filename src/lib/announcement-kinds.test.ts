@@ -60,6 +60,17 @@ describe("pickFeaturedAnnouncements", () => {
     expect(picked.map((r) => r.id)).toEqual(["event", "new-news"]);
   });
 
+  test("keeps up to three adverts, newest first, after the other kinds", () => {
+    const picked = pickFeaturedAnnouncements([
+      row("ad-1", "advert", "2026-11-01"),
+      row("ad-2", "advert", "2026-11-02"),
+      row("ad-3", "advert", "2026-11-03"),
+      row("ad-4", "advert", "2026-11-04"),
+      row("news", "news", "2026-11-05"),
+    ]);
+    expect(picked.map((r) => r.id)).toEqual(["news", "ad-4", "ad-3", "ad-2"]);
+  });
+
   test("returns nothing when nothing is active", () => {
     expect(pickFeaturedAnnouncements([])).toEqual([]);
   });
