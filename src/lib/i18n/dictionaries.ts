@@ -104,6 +104,8 @@ export type CoreMessages = {
     prayerDaysLeft: (n: number) => string;
     tapToPray: string;
     tapToRead: string;
+    /** Label for a dot under the swipeable announcements on Home. */
+    announcementPosition: (n: number, total: number) => string;
     askPdReplied: string;
     daysLeftShort: (n: number) => string;
     announcementKinds: {

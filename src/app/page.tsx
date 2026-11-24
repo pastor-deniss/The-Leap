@@ -9,7 +9,7 @@ import {
   COMMITMENT_ITEMS,
   getActiveCommitment,
 } from "@/lib/supabase/commitments";
-import { getActiveAnnouncementCached } from "@/lib/supabase/announcements";
+import { getActiveAnnouncementsCached } from "@/lib/supabase/announcements";
 import { countUserUnreadAskPd } from "@/lib/supabase/ask-pd";
 import { isTodaysDevotionUnread } from "@/lib/supabase/devotion-reads";
 import { getLocale } from "@/lib/i18n/get-locale";
@@ -72,7 +72,7 @@ async function HomeContent({
     { progress, journeySlug },
     { data: profile },
     commitment,
-    announcement,
+    announcements,
     journey,
     devotionUnread,
     askPdUnread,
@@ -84,7 +84,7 @@ async function HomeContent({
         .eq("id", user.id)
         .single(),
       getActiveCommitment(supabase, user.id),
-      getActiveAnnouncementCached(locale),
+      getActiveAnnouncementsCached(locale),
       journeyMeta,
       isTodaysDevotionUnread(supabase),
       countUserUnreadAskPd(supabase, user.id),
@@ -133,7 +133,7 @@ async function HomeContent({
           ? { done: commitmentItemsDone(commitment), total: COMMITMENT_ITEMS.length }
           : null
       }
-      announcement={announcement}
+      announcements={announcements}
       showGospelInvite={showGospelInvite}
       devotionUnread={devotionUnread}
       askPdUnread={askPdUnread}

@@ -100,6 +100,7 @@ export const core: CoreMessages = {
         : `${n} jours restants — touche pour prier`,
     tapToPray: "Touche pour prier",
     tapToRead: "Touche pour lire la suite",
+    announcementPosition: (n, total) => `Annonce ${n} sur ${total}`,
     askPdReplied: "Pasteur Deniss t'a répondu",
     daysLeftShort: (n) =>
       n <= 1 ? `${n} jour restant` : `${n} jours restants`,

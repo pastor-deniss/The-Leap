@@ -7,7 +7,7 @@ import { getLocale } from "@/lib/i18n/get-locale";
 import { wordSpace } from "@/lib/i18n/format";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import {
-  getActiveAnnouncementCached,
+  getActiveAnnouncementsCached,
   getPrayerMovementParticipation,
 } from "@/lib/supabase/announcements";
 import { PrayerComposer } from "./prayer-composer";
@@ -53,9 +53,8 @@ export default async function PrayerRoomPage(
 
   // Only a prayer announcement belongs in the Prayer Room — news, events
   // and adverts show on Home alone.
-  const activeAnnouncement = await getActiveAnnouncementCached(locale);
   const activeMovement =
-    activeAnnouncement?.kind === "prayer" ? activeAnnouncement : null;
+    (await getActiveAnnouncementsCached(locale)).find((a) => a.kind === "prayer") ?? null;
   const movementParticipation = activeMovement
     ? await getPrayerMovementParticipation(supabase, activeMovement.id, user.id)
     : null;

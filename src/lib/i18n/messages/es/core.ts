@@ -97,6 +97,7 @@ export const core: CoreMessages = {
       n === 1 ? "Queda 1 día · toca para orar" : `Quedan ${n} días · toca para orar`,
     tapToPray: "Toca para orar",
     tapToRead: "Toca para leer más",
+    announcementPosition: (n, total) => `Anuncio ${n} de ${total}`,
     askPdReplied: "El pastor Deniss te respondió",
     daysLeftShort: (n) => (n === 1 ? "Queda 1 día" : `Quedan ${n} días`),
     announcementKinds: {

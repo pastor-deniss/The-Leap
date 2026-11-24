@@ -19,6 +19,36 @@ export const ANNOUNCEMENT_KIND_LABELS: Record<AnnouncementKind, string> = {
   general: "General",
 };
 
+// The order the featured announcements appear in on Home, one per kind.
+// Fixed, so people learn where things are as they swipe.
+export const ANNOUNCEMENT_DISPLAY_ORDER: readonly AnnouncementKind[] = [
+  "prayer",
+  "event",
+  "news",
+  "general",
+  "advert",
+];
+
+/**
+ * The announcements Home features: at most one of each kind (the newest,
+ * should two of a kind ever be active together), in display order.
+ */
+export function pickFeaturedAnnouncements<
+  T extends { kind: AnnouncementKind; created_at: string },
+>(rows: readonly T[]): T[] {
+  const newestByKind = new Map<AnnouncementKind, T>();
+  for (const row of rows) {
+    const current = newestByKind.get(row.kind);
+    if (!current || row.created_at > current.created_at) {
+      newestByKind.set(row.kind, row);
+    }
+  }
+  return ANNOUNCEMENT_DISPLAY_ORDER.flatMap((kind) => {
+    const row = newestByKind.get(kind);
+    return row ? [row] : [];
+  });
+}
+
 export function isAnnouncementKind(value: unknown): value is AnnouncementKind {
   return (
     typeof value === "string" &&

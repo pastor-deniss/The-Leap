@@ -99,6 +99,7 @@ export const core: CoreMessages = {
         : `Siku ${n} zimebaki — gusa kuomba`,
     tapToPray: "Gusa kuomba",
     tapToRead: "Gusa kusoma zaidi",
+    announcementPosition: (n, total) => `Tangazo ${n} kati ya ${total}`,
     askPdReplied: "Mchungaji Deniss amekujibu",
     daysLeftShort: (n) =>
       n === 1 ? "Siku 1 imebaki" : `Siku ${n} zimebaki`,

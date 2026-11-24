@@ -152,7 +152,7 @@ export const admin: AdminMessages = {
     editHeading: "Editar anuncio",
     newHeading: "Nuevo anuncio",
     intro:
-      "En Inicio se muestra un solo anuncio a la vez: un movimiento de oración, una noticia, un evento, un anuncio publicitario o un mensaje general. Al activar uno se reemplaza el que esté publicado.",
+      "En Inicio se muestra un anuncio de cada tipo a la vez: un movimiento de oración, una noticia, un evento, un anuncio publicitario y un mensaje general, y se desliza para pasar de uno a otro. Al activar uno se reemplaza el del mismo tipo que esté publicado.",
     create: "Crear anuncio",
     empty: "Todavía no hay anuncios. Crea el primero arriba.",
     active: "Activo",

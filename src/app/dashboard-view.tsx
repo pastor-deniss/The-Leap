@@ -29,6 +29,7 @@ import {
   type AnnouncementKind,
 } from "@/lib/supabase/announcements";
 import { GospelInviteCard } from "@/components/gospel-invite/gospel-invite-card";
+import { AnnouncementCarousel } from "@/components/announcement-carousel";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import type { Locale } from "@/lib/i18n/locales";
 import { signOut } from "./sign-in/actions";
@@ -109,7 +110,7 @@ export function DashboardView({
   avatarUrl,
   nextJourney,
   commitmentProgress,
-  announcement,
+  announcements = [],
   showGospelInvite,
   devotionUnread,
   askPdUnread = 0,
@@ -122,7 +123,7 @@ export function DashboardView({
   avatarUrl: string | null;
   nextJourney?: NextJourney | null;
   commitmentProgress?: { done: number; total: number } | null;
-  announcement?: Announcement | null;
+  announcements?: Announcement[];
   showGospelInvite?: boolean;
   devotionUnread?: boolean;
   askPdUnread?: number;
@@ -339,12 +340,21 @@ export function DashboardView({
         </Link>
       )}
 
-      {announcement && (
-        <AnnouncementBanner
-          announcement={announcement}
-          dict={dict}
-          locale={locale}
-        />
+      {announcements.length > 0 && (
+        <AnnouncementCarousel
+          labels={announcements.map((_, i) =>
+            dict.dashboard.announcementPosition(i + 1, announcements.length),
+          )}
+        >
+          {announcements.map((announcement) => (
+            <AnnouncementBanner
+              key={announcement.id}
+              announcement={announcement}
+              dict={dict}
+              locale={locale}
+            />
+          ))}
+        </AnnouncementCarousel>
       )}
 
       <div className="space-y-3">
@@ -430,8 +440,9 @@ const ANNOUNCEMENT_ICONS: Record<AnnouncementKind, typeof Bell> = {
   general: Bell,
 };
 
-// The single featured announcement on Home — a prayer movement, news, an
-// event, an advert or a general message, all in the same window.
+// One card in the featured window on Home — a prayer movement, news, an
+// event, an advert or a general message. Cards share a height so the
+// window doesn't jump as people swipe.
 function AnnouncementBanner({
   announcement,
   dict,
@@ -460,7 +471,7 @@ function AnnouncementBanner({
   return (
     <Link
       href={announcementHref(announcement)}
-      className="flex items-center gap-3 rounded-xl border-2 border-primary/30 bg-card p-4 hover:bg-muted/50"
+      className="flex h-full items-center gap-3 rounded-xl border-2 border-primary/30 bg-card p-4 hover:bg-muted/50"
     >
       {imageUrl ? (
         // eslint-disable-next-line @next/next/no-img-element

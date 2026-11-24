@@ -152,7 +152,7 @@ export const admin: AdminMessages = {
     editHeading: "Hariri tangazo",
     newHeading: "Tangazo jipya",
     intro:
-      "Tangazo moja huonekana Nyumbani kwa wakati mmoja — vuguvugu la maombi, habari, tukio, tangazo la kibiashara au ujumbe wa jumla. Kuamilisha moja huchukua nafasi ya lile lililo hewani.",
+      "Tangazo moja la kila aina huonekana Nyumbani kwa wakati mmoja — vuguvugu la maombi, habari, tukio, tangazo la kibiashara na ujumbe wa jumla — na watu hutelezesha kidole kuyapitia. Kuamilisha moja huchukua nafasi ya lile la aina hiyo hiyo lililo hewani.",
     create: "Unda tangazo",
     empty: "Bado hakuna matangazo — unda la kwanza hapo juu.",
     active: "Hewani",

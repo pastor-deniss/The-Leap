@@ -2,15 +2,16 @@ import { createClient as createSupabaseJsClient } from "@supabase/supabase-js";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { unstable_cache } from "next/cache";
 
-// An Announcement is the single featured window on Home: a prayer movement,
-// a piece of news, an event, an advert or a general message. Stored in the
+// An Announcement is one card in the featured window on Home: a prayer
+// movement, a piece of news, an event, an advert or a general message. One
+// of each kind can be live at a time; people swipe between them. Stored in the
 // `prayer_movements` table (it began life as prayer-only — see migration
 // 0036), so a 'prayer' announcement is exactly what used to be called a
 // prayer movement.
-import type { AnnouncementKind } from "@/lib/announcement-kinds";
+import { pickFeaturedAnnouncements, type AnnouncementKind } from "@/lib/announcement-kinds";
 import { formatDate } from "@/lib/i18n/format";
 import type { Locale } from "@/lib/i18n/locales";
-import { localizeRow } from "@/lib/localization/content";
+import { localizeRows } from "@/lib/localization/content";
 
 export {
   ANNOUNCEMENT_KINDS,
@@ -42,15 +43,16 @@ export const ANNOUNCEMENT_COLUMNS =
 
 export const ANNOUNCEMENT_IMAGE_BUCKET = "announcement-images";
 
-// The single featured announcement, if any — only one is "active" at a time
-// so Home always has one clear thing to bring into awareness rather than a
-// list. One with an `active_until` in the past is treated as expired and
-// excluded here, even though its row is still `status = 'active'` — the
-// admin has to re-activate it (with a fresh day count) to bring it back.
-export async function getActiveAnnouncement(
+// The featured announcements on Home: at most one of each kind (prayer,
+// event, news, general, advert), in that fixed order, so people can swipe
+// between them. One with an `active_until` in the past is treated as
+// expired and excluded here, even though its row is still
+// `status = 'active'` — the admin has to re-activate it (with a fresh day
+// count) to bring it back.
+export async function getActiveAnnouncements(
   supabase: SupabaseClient,
   locale: Locale = "en",
-): Promise<Announcement | null> {
+): Promise<Announcement[]> {
   const today = new Date().toISOString().slice(0, 10);
 
   const { data, error } = await supabase
@@ -58,15 +60,14 @@ export async function getActiveAnnouncement(
     .select(ANNOUNCEMENT_COLUMNS)
     .eq("status", "active")
     .or(`active_until.is.null,active_until.gte.${today}`)
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .maybeSingle<Announcement>();
+    .returns<Announcement[]>();
 
   if (error) {
-    console.error("Failed to load active announcement", error);
+    console.error("Failed to load active announcements", error);
   }
 
-  return localizeRow(supabase, "announcement", data ?? null, locale);
+  const featured = pickFeaturedAnnouncements(data ?? []);
+  return localizeRows(supabase, "announcement", featured, locale);
 }
 
 // "active prayer movements are publicly readable" (migration 0023) — this
@@ -84,10 +85,10 @@ function publicAnnouncementsClient() {
   );
 }
 
-export const getActiveAnnouncementCached = unstable_cache(
+export const getActiveAnnouncementsCached = unstable_cache(
   async (locale: Locale = "en") =>
-    getActiveAnnouncement(publicAnnouncementsClient(), locale),
-  ["active-announcement"],
+    getActiveAnnouncements(publicAnnouncementsClient(), locale),
+  ["active-announcements"],
   { tags: ["announcement"], revalidate: 60 },
 );
 

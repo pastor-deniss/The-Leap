@@ -270,8 +270,8 @@ export async function updateAnnouncement(id: string, formData: FormData) {
   revalidateAnnouncement();
 }
 
-// Only one announcement is featured at a time, so activating one archives
-// whichever was previously active first.
+// One announcement of each kind is featured at a time (Home swipes between
+// them), so activating one archives whichever of the same kind was live.
 export async function activateAnnouncement(id: string, formData: FormData) {
   const { supabase } = await requireAdmin();
 
@@ -281,10 +281,23 @@ export async function activateAnnouncement(id: string, formData: FormData) {
   activeUntil.setDate(activeUntil.getDate() + (days - 1));
   const activeUntilStr = activeUntil.toISOString().slice(0, 10);
 
+  const { data: target, error: kindError } = await supabase
+    .from("prayer_movements")
+    .select("kind")
+    .eq("id", id)
+    .maybeSingle<{ kind: string }>();
+
+  if (kindError || !target) {
+    console.error("Failed to load announcement to activate", kindError);
+    return;
+  }
+
   const { error: archiveError } = await supabase
     .from("prayer_movements")
     .update({ status: "archived" })
-    .eq("status", "active");
+    .eq("status", "active")
+    .eq("kind", target.kind)
+    .neq("id", id);
 
   if (archiveError) {
     console.error("Failed to archive previous announcement", archiveError);

@@ -93,6 +93,7 @@ export const core: CoreMessages = {
     prayerDaysLeft: (n) => `还剩 ${n} 天——点击祷告`,
     tapToPray: "点击祷告",
     tapToRead: "点击阅读更多",
+    announcementPosition: (n, total) => `第 ${n} 条公告，共 ${total} 条`,
     askPdReplied: "Deniss 牧师回复了你",
     daysLeftShort: (n) => `还剩 ${n} 天`,
     announcementKinds: {

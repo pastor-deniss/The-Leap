@@ -99,6 +99,7 @@ export const core: CoreMessages = {
         : `Noch ${n} Tage – tippe zum Beten`,
     tapToPray: "Tippe zum Beten",
     tapToRead: "Tippe zum Weiterlesen",
+    announcementPosition: (n, total) => `Ankündigung ${n} von ${total}`,
     askPdReplied: "Pastor Deniss hat dir geantwortet",
     daysLeftShort: (n) => (n === 1 ? "Noch 1 Tag" : `Noch ${n} Tage`),
     announcementKinds: {

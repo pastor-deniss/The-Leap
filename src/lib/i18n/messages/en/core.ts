@@ -96,6 +96,7 @@ export const core: CoreMessages = {
     prayerDaysLeft: (n) => `${n} day${n === 1 ? "" : "s"} left — tap to pray`,
     tapToPray: "Tap to pray",
     tapToRead: "Tap to read more",
+    announcementPosition: (n, total) => `Announcement ${n} of ${total}`,
     askPdReplied: "Pastor Deniss replied to you",
     daysLeftShort: (n) => `${n} day${n === 1 ? "" : "s"} left`,
     announcementKinds: {
