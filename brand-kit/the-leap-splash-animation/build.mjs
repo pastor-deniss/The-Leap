@@ -70,6 +70,7 @@ function makeCanvas(W, H) {
 
 const PORTRAIT = makeCanvas(1080, 1920); // 9:16, phone screens and stories
 const SQUARE = makeCanvas(1080, 1080); // 1:1, Instagram posts
+const FOUR_FIVE = makeCanvas(1080, 1350); // 4:5, tallest Instagram feed post
 
 // ---- 1. Vector SVG, animated with the app's own CSS -----------------------
 // Plays once and holds on the finished logo (the app fades out instead).
@@ -246,6 +247,7 @@ try {
   for (const [file, canvas] of [
     ["the-leap-splash-animation.mp4", PORTRAIT],
     ["the-leap-splash-animation-square.mp4", SQUARE],
+    ["the-leap-splash-animation-4x5.mp4", FOUR_FIVE],
   ]) {
     const fps = 30;
     const seconds = 4;
@@ -267,6 +269,7 @@ try {
 for (const [file, canvas] of [
   ["the-leap-splash-final-frame.png", PORTRAIT],
   ["the-leap-splash-final-frame-square.png", SQUARE],
+  ["the-leap-splash-final-frame-4x5.png", FOUR_FIVE],
 ]) {
   await sharp(Buffer.from(frameSvg(PLAY, canvas))).png().toFile(join(OUT, file));
   console.log(`${file}: ${canvas.W}x${canvas.H}`);

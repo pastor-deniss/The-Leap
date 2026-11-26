@@ -2,8 +2,9 @@
 
 The animation the app plays when it opens: the Leap arc draws itself, the dot
 leaps off its tip and lands, then "the leap" rises in beneath. White on the
-brand orange gradient, in a phone-shaped 9:16 frame, with square 1:1 versions
-for Instagram posts. The logo is the same size in both.
+brand orange gradient, in a phone-shaped 9:16 frame, with square 1:1 and
+portrait 4:5 versions for Instagram posts. The logo is the same size in all
+of them.
 
 ## Files
 
@@ -13,9 +14,11 @@ for Instagram posts. The logo is the same size in both.
 | `the-leap-splash-animation.gif` | 540×960, loops every 3 s | WhatsApp, email, chats: anywhere that only takes GIFs |
 | `the-leap-splash-animation.mp4` | 1080×1920 video, 4 s, plays once and holds the logo | Instagram and WhatsApp status, TikTok, YouTube Shorts, presentations, video editors |
 | `the-leap-splash-animation-square.mp4` | 1080×1080 video, 4 s, plays once and holds the logo | Instagram and Facebook feed posts |
+| `the-leap-splash-animation-4x5.mp4` | 1080×1350 video, 4 s, plays once and holds the logo | Instagram feed posts: 4:5 fills more of the screen than square |
 | `the-leap-splash-animation.webp` | 720×1280, loops every 3 s, sharper and smaller than the GIF | Websites, Telegram, Android stickers |
 | `the-leap-splash-final-frame.png` | 1080×1920 still of the finished logo | Posters, status updates, thumbnails |
 | `the-leap-splash-final-frame-square.png` | 1080×1080 still of the finished logo | Instagram post cover, profile and square thumbnails |
+| `the-leap-splash-final-frame-4x5.png` | 1080×1350 still of the finished logo | Instagram feed image posts and covers for the 4:5 video |
 
 ## Timing
 
