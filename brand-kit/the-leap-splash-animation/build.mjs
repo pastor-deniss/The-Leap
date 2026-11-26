@@ -32,51 +32,58 @@ const wordSvg = readFileSync(
 const WORD_VIEW = wordSvg.match(/viewBox="([^"]+)"/)[1].split(/\s+/).map(Number);
 const WORD_PATH = wordSvg.match(/<path[\s\S]*?\/>/)[0];
 
-// ---- Layout: a 9:16 phone screen, proportioned like the app on a phone ----
-// On a 390pt-wide phone the mark is 156pt (40% of the width), the gap
-// below it 20pt and the lettering ~30pt tall.
-const W = 1080;
-const H = 1920;
-const U = W / 390; // app CSS px -> canvas px
-const MARK = 0.4 * W;
-const GAP = 20 * U;
-const WORD_W = 150 * U;
-const WORD_S = WORD_W / WORD_VIEW[2];
-const WORD_H = WORD_VIEW[3] * WORD_S;
-const STACK_H = MARK + GAP + WORD_H;
-const MARK_X = (W - MARK) / 2;
-const MARK_Y = (H - STACK_H) / 2;
-const MARK_S = MARK / 100;
-const WORD_X = (W - WORD_W) / 2;
-const WORD_Y = MARK_Y + MARK + GAP;
-const WORD_RISE = 10 * U;
-
-// The app's CSS gradient is 135deg; this is the same line in canvas units.
-const half = ((W + H) * Math.SQRT1_2) / 2;
-const G = {
-  x1: W / 2 - half * Math.SQRT1_2,
-  y1: H / 2 - half * Math.SQRT1_2,
-  x2: W / 2 + half * Math.SQRT1_2,
-  y2: H / 2 + half * Math.SQRT1_2,
-};
-
-const defs = `<defs><linearGradient id="leap-bg" gradientUnits="userSpaceOnUse" x1="${G.x1}" y1="${G.y1}" x2="${G.x2}" y2="${G.y2}"><stop offset="0" stop-color="${GRADIENT[0]}"/><stop offset="0.5" stop-color="${GRADIENT[1]}"/><stop offset="1" stop-color="${GRADIENT[2]}"/></linearGradient></defs>`;
 const wordPath = WORD_PATH.replace(/fill="[^"]*"/, 'fill="#FFFFFF"');
-const markPlace = `translate(${MARK_X} ${MARK_Y}) scale(${MARK_S})`;
-const wordPlace = `translate(${WORD_X} ${WORD_Y}) scale(${WORD_S})`;
+
+// ---- Layout -----------------------------------------------------------------
+// Proportioned like the app on a phone: on a 390pt-wide screen the mark is
+// 156pt (40% of the width), the gap below it 20pt and the lettering ~30pt
+// tall. The logo is sized from a 1080-wide canvas and centred, so the
+// portrait and square files carry the same logo at the same size.
+function makeCanvas(W, H) {
+  const U = 1080 / 390; // app CSS px -> canvas px
+  const MARK = 0.4 * 1080;
+  const GAP = 20 * U;
+  const WORD_W = 150 * U;
+  const WORD_S = WORD_W / WORD_VIEW[2];
+  const WORD_H = WORD_VIEW[3] * WORD_S;
+  const MARK_X = (W - MARK) / 2;
+  const MARK_Y = (H - (MARK + GAP + WORD_H)) / 2;
+
+  // The app's CSS gradient is 135deg; this is the same line in canvas units.
+  const half = ((W + H) * Math.SQRT1_2) / 2;
+  const g = [
+    W / 2 - half * Math.SQRT1_2,
+    H / 2 - half * Math.SQRT1_2,
+    W / 2 + half * Math.SQRT1_2,
+    H / 2 + half * Math.SQRT1_2,
+  ];
+
+  return {
+    W,
+    H,
+    defs: `<defs><linearGradient id="leap-bg" gradientUnits="userSpaceOnUse" x1="${g[0]}" y1="${g[1]}" x2="${g[2]}" y2="${g[3]}"><stop offset="0" stop-color="${GRADIENT[0]}"/><stop offset="0.5" stop-color="${GRADIENT[1]}"/><stop offset="1" stop-color="${GRADIENT[2]}"/></linearGradient></defs>`,
+    markPlace: `translate(${MARK_X} ${MARK_Y}) scale(${MARK / 100})`,
+    wordPlace: `translate(${(W - WORD_W) / 2} ${MARK_Y + MARK + GAP}) scale(${WORD_S})`,
+    wordRise: 10 * U,
+  };
+}
+
+const PORTRAIT = makeCanvas(1080, 1920); // 9:16, phone screens and stories
+const SQUARE = makeCanvas(1080, 1080); // 1:1, Instagram posts
 
 // ---- 1. Vector SVG, animated with the app's own CSS -----------------------
 // Plays once and holds on the finished logo (the app fades out instead).
 // These files open straight on the gradient: the app's half-second wash in
 // from flat orange only exists to hide the hand-off from Android's launch
 // screen, which a standalone file doesn't have.
+const { W, H, defs, markPlace, wordPlace, wordRise } = PORTRAIT;
 const animatedSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">
 <title>The Leap splash animation</title>
 ${defs}
 <style>
 .arc{stroke-dasharray:1 2;stroke-dashoffset:1;opacity:0;animation:arc .7s cubic-bezier(.65,0,.35,1) .15s forwards}
 .dot{transform-box:fill-box;transform-origin:50% 100%;opacity:0;animation:dot .5s cubic-bezier(.33,0,.2,1) .75s forwards}
-.word{opacity:0;transform:translateY(${WORD_RISE.toFixed(1)}px);animation:word .4s ease-out 1.15s forwards}
+.word{opacity:0;transform:translateY(${wordRise.toFixed(1)}px);animation:word .4s ease-out 1.15s forwards}
 @keyframes arc{0%{opacity:1;stroke-dashoffset:1}100%{opacity:1;stroke-dashoffset:0}}
 @keyframes dot{0%{opacity:0;transform:translate(-3px,22px) scale(.3)}15%{opacity:1}50%{opacity:1;transform:translate(-1px,-12px) scale(1.05)}78%{opacity:1;transform:translate(0,0) scale(1.12,.82)}100%{opacity:1;transform:translate(0,0) scale(1)}}
 @keyframes word{to{opacity:1;transform:translateY(0)}}
@@ -92,7 +99,7 @@ ${defs}
 `;
 writeFileSync(join(OUT, "the-leap-splash-animation.svg"), animatedSvg);
 
-// ---- 2. Frame-by-frame renderer, for the GIF, WebP and PNG ----------------
+// ---- 2. Frame-by-frame renderer, for the GIF, WebP, MP4 and PNG -----------
 function cubicBezier(x1, y1, x2, y2) {
   const bx = (t) => 3 * (1 - t) ** 2 * t * x1 + 3 * (1 - t) * t ** 2 * x2 + t ** 3;
   const by = (t) => 3 * (1 - t) ** 2 * t * y1 + 3 * (1 - t) * t ** 2 * y2 + t ** 3;
@@ -144,7 +151,7 @@ const DOT_KEYS = [
   [1, 0, 0, 1, 1],
 ];
 
-function frameSvg(t) {
+function frameSvg(t, { W, H, defs, markPlace, wordPlace, wordRise } = PORTRAIT) {
   const arcP = progress(t, 0.15, 0.7);
   const arcOn = t >= 0.15;
   const dashOffset = ARC_LEN * (1 - arcEase(arcP));
@@ -170,7 +177,7 @@ ${defs}
 ${arcOn ? `<path d="${ARC}" fill="none" stroke="#FFFFFF" stroke-width="${STROKE}" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="${ARC_LEN} ${ARC_LEN * 2}" stroke-dashoffset="${dashOffset}"/>` : ""}
 <g transform="${dotTransform}" opacity="${dotOpacity}"><circle cx="${DOT.cx}" cy="${DOT.cy}" r="${DOT.r}" fill="#FFFFFF"/></g>
 </g>
-<g opacity="${wordP}" transform="translate(0 ${WORD_RISE * (1 - wordP)})"><g transform="${wordPlace}">${wordPath}</g></g>
+<g opacity="${wordP}" transform="translate(0 ${wordRise * (1 - wordP)})"><g transform="${wordPlace}">${wordPath}</g></g>
 </svg>`;
 }
 
@@ -181,7 +188,7 @@ const HOLD = 1.4;
 
 async function renderLoop(file, { width, fps, encode }) {
   const frames = Math.round(PLAY * fps) + 1; // 0 .. PLAY inclusive
-  const height = Math.round((width * H) / W);
+  const height = Math.round((width * PORTRAIT.H) / PORTRAIT.W);
   const raw = [];
   for (let i = 0; i < frames; i++) {
     raw.push(
@@ -215,47 +222,53 @@ await renderLoop("the-leap-splash-animation.webp", {
   encode: (img, delay) => img.webp({ delay, loop: 0, lossless: true, effort: 6 }),
 });
 
-// Full-size video: plays, then holds the finished logo for a few seconds.
-{
-  const fps = 30;
-  const seconds = 4;
-  const dir = mkdtempSync(join(tmpdir(), "leap-splash-"));
-  try {
+// ---- 3. Full-size videos: play, then hold the finished logo --------------
+const scratch = mkdtempSync(join(tmpdir(), "leap-splash-"));
+try {
+  const encoder = join(scratch, "encode-mp4");
+  execFileSync(
+    "clang",
+    [
+      "-fobjc-arc",
+      "-O2",
+      "-framework", "Foundation",
+      "-framework", "AVFoundation",
+      "-framework", "CoreMedia",
+      "-framework", "CoreVideo",
+      "-framework", "CoreGraphics",
+      "-framework", "ImageIO",
+      join(OUT, "encode-mp4.m"),
+      "-o", encoder,
+    ],
+    { stdio: "inherit" },
+  );
+
+  for (const [file, canvas] of [
+    ["the-leap-splash-animation.mp4", PORTRAIT],
+    ["the-leap-splash-animation-square.mp4", SQUARE],
+  ]) {
+    const fps = 30;
+    const seconds = 4;
+    const dir = mkdtempSync(join(scratch, "frames-"));
     for (let i = 0; i < fps * seconds; i++) {
-      await sharp(Buffer.from(frameSvg(Math.min(i / fps, PLAY))))
+      await sharp(Buffer.from(frameSvg(Math.min(i / fps, PLAY), canvas)))
         .png()
         .toFile(join(dir, `frame-${String(i).padStart(4, "0")}.png`));
     }
-    const encoder = join(dir, "encode-mp4");
-    execFileSync(
-      "clang",
-      [
-        "-fobjc-arc",
-        "-O2",
-        "-framework", "Foundation",
-        "-framework", "AVFoundation",
-        "-framework", "CoreMedia",
-        "-framework", "CoreVideo",
-        "-framework", "CoreGraphics",
-        "-framework", "ImageIO",
-        join(OUT, "encode-mp4.m"),
-        "-o", encoder,
-      ],
-      { stdio: "inherit" },
-    );
-    execFileSync(
-      encoder,
-      [dir, String(fps), join(OUT, "the-leap-splash-animation.mp4")],
-      { stdio: "inherit" },
-    );
-  } finally {
-    rmSync(dir, { recursive: true, force: true });
+    execFileSync(encoder, [dir, String(fps), join(OUT, file)], {
+      stdio: "inherit",
+    });
   }
+} finally {
+  rmSync(scratch, { recursive: true, force: true });
 }
 
-// The finished frame as a still, full size.
-await sharp(Buffer.from(frameSvg(PLAY)))
-  .png()
-  .toFile(join(OUT, "the-leap-splash-final-frame.png"));
-console.log("the-leap-splash-final-frame.png: 1080x1920");
+// ---- 4. The finished frame as a still, full size ----------------------------
+for (const [file, canvas] of [
+  ["the-leap-splash-final-frame.png", PORTRAIT],
+  ["the-leap-splash-final-frame-square.png", SQUARE],
+]) {
+  await sharp(Buffer.from(frameSvg(PLAY, canvas))).png().toFile(join(OUT, file));
+  console.log(`${file}: ${canvas.W}x${canvas.H}`);
+}
 console.log("the-leap-splash-animation.svg: vector, plays once");
