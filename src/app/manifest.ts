@@ -7,11 +7,14 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "Your Essential Companion in Christ",
     start_url: "/",
     display: "standalone",
-    // Android paints its launch screen (the icon) on background_color: Leap
-    // Orange, the same as the in-app splash (SplashScreen), so the hand-off
-    // from launch screen to splash reads as one continuous screen.
-    background_color: "#F57C00",
-    theme_color: "#0E0D0C",
+    // Android paints its launch screen itself, before any page code runs:
+    // the icon centred on background_color, status bar in theme_color. Both
+    // are the icon's own orange (IconMark), so the icon's square edge melts
+    // into the screen and only the cream mark shows, and the in-app splash
+    // (SplashScreen) starts on that same orange: no black, no box. Once the
+    // page loads, the viewport themeColor in layout.tsx takes over.
+    background_color: "#FF7A00",
+    theme_color: "#FF7A00",
     icons: [
       {
         src: "/icon-192.png",

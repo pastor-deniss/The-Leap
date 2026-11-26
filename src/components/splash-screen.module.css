@@ -1,9 +1,9 @@
 /*
  * Timeline (seconds from first paint):
- *   0.20 – 1.10  the arc draws from the top of the L, down and up the sweep
- *   1.00 – 1.65  the dot leaps off the end of the arc and lands in place
- *   1.50 – 2.00  the wordmark rises in
- *   2.20 – 2.65  the screen fades away, the mark easing slightly forward
+ *   0.15 – 0.85  the arc draws from the top of the L, down and up the sweep
+ *   0.75 – 1.25  the dot leaps off the end of the arc and lands in place
+ *   1.15 – 1.55  the wordmark rises in
+ *   1.65 – 2.00  the screen fades away, the mark easing slightly forward
  */
 
 .splash {
@@ -13,9 +13,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Brand gradient, as on the app icon (top-left to bottom-right). */
+  /* Starts on the flat orange of Android's launch screen (manifest
+   * background_color) so the hand-off is invisible, then the brand gradient,
+   * as on the app icon, washes in over it. */
+  background: #ff7a00;
+  animation: splash-out 0.35s ease-in 1.65s forwards;
+}
+
+.splash::before {
+  content: "";
+  position: absolute;
+  inset: 0;
   background: linear-gradient(135deg, #ff9e2c 0%, #f57c00 50%, #e85a0e 100%);
-  animation: splash-out 0.45s ease-in 2.2s forwards;
+  opacity: 0;
+  animation: gradient-in 0.5s ease-out forwards;
+}
+
+@keyframes gradient-in {
+  to {
+    opacity: 1;
+  }
 }
 
 :global(html[data-splash="seen"]) .splash {
@@ -23,11 +40,12 @@
 }
 
 .stage {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.25rem;
-  animation: stage-out 0.45s ease-in 2.2s forwards;
+  animation: stage-out 0.35s ease-in 1.65s forwards;
 }
 
 .mark {
@@ -40,14 +58,14 @@
   stroke-dasharray: 1 2;
   stroke-dashoffset: 1;
   opacity: 0;
-  animation: arc-draw 0.9s cubic-bezier(0.65, 0, 0.35, 1) 0.2s forwards;
+  animation: arc-draw 0.7s cubic-bezier(0.65, 0, 0.35, 1) 0.15s forwards;
 }
 
 .dotLeap {
   transform-box: fill-box;
   transform-origin: 50% 100%;
   opacity: 0;
-  animation: dot-leap 0.65s cubic-bezier(0.33, 0, 0.2, 1) 1s forwards;
+  animation: dot-leap 0.5s cubic-bezier(0.33, 0, 0.2, 1) 0.75s forwards;
 }
 
 .wordmark {
@@ -58,7 +76,7 @@
   color: #ffffff;
   opacity: 0;
   transform: translateY(10px);
-  animation: word-in 0.5s ease-out 1.5s forwards;
+  animation: word-in 0.4s ease-out 1.15s forwards;
 }
 
 @keyframes arc-draw {
@@ -126,10 +144,14 @@
     stroke-dashoffset: 0;
     transform: none;
   }
-  .stage {
+  .stage,
+  .splash::before {
     animation: none;
   }
+  .splash::before {
+    opacity: 1;
+  }
   .splash {
-    animation: splash-out 0.3s linear 1.6s forwards;
+    animation: splash-out 0.3s linear 1.2s forwards;
   }
 }
