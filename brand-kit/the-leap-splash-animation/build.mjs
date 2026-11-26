@@ -2,11 +2,15 @@
 // as the app's splash (src/components/splash-screen.*). Run from the repo
 // root:  node brand-kit/the-leap-splash-animation/build.mjs
 //
-// The vector SVG animates with CSS like the app. The GIF, WebP and PNG are
-// drawn frame by frame here (sharp can't play CSS animations), so the timing
-// below mirrors splash-screen.module.css; keep the two in step.
+// The vector SVG animates with CSS like the app. The GIF, WebP, MP4 and PNG
+// are drawn frame by frame here (sharp can't play CSS animations), so the
+// timing below mirrors splash-screen.module.css; keep the two in step. The
+// MP4 is encoded by encode-mp4.m with macOS's own AVFoundation, so this
+// script needs a Mac with the Command Line Tools (clang); no ffmpeg.
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
@@ -210,6 +214,44 @@ await renderLoop("the-leap-splash-animation.webp", {
   fps: 30,
   encode: (img, delay) => img.webp({ delay, loop: 0, lossless: true, effort: 6 }),
 });
+
+// Full-size video: plays, then holds the finished logo for a few seconds.
+{
+  const fps = 30;
+  const seconds = 4;
+  const dir = mkdtempSync(join(tmpdir(), "leap-splash-"));
+  try {
+    for (let i = 0; i < fps * seconds; i++) {
+      await sharp(Buffer.from(frameSvg(Math.min(i / fps, PLAY))))
+        .png()
+        .toFile(join(dir, `frame-${String(i).padStart(4, "0")}.png`));
+    }
+    const encoder = join(dir, "encode-mp4");
+    execFileSync(
+      "clang",
+      [
+        "-fobjc-arc",
+        "-O2",
+        "-framework", "Foundation",
+        "-framework", "AVFoundation",
+        "-framework", "CoreMedia",
+        "-framework", "CoreVideo",
+        "-framework", "CoreGraphics",
+        "-framework", "ImageIO",
+        join(OUT, "encode-mp4.m"),
+        "-o", encoder,
+      ],
+      { stdio: "inherit" },
+    );
+    execFileSync(
+      encoder,
+      [dir, String(fps), join(OUT, "the-leap-splash-animation.mp4")],
+      { stdio: "inherit" },
+    );
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+}
 
 // The finished frame as a still, full size.
 await sharp(Buffer.from(frameSvg(PLAY)))

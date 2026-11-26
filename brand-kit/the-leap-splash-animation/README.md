@@ -10,6 +10,7 @@ brand orange gradient, in a phone-shaped 9:16 frame.
 |---|---|---|
 | `the-leap-splash-animation.svg` | Vector, 1080×1920, plays once and stays on the logo | Websites and presentations that show SVG; sharp at any size. Open it in a browser and refresh to replay. |
 | `the-leap-splash-animation.gif` | 540×960, loops every 3 s | WhatsApp, email, chats: anywhere that only takes GIFs |
+| `the-leap-splash-animation.mp4` | 1080×1920 video, 4 s, plays once and holds the logo | Instagram and WhatsApp status, TikTok, YouTube Shorts, presentations, video editors |
 | `the-leap-splash-animation.webp` | 720×1280, loops every 3 s, sharper and smaller than the GIF | Websites, Telegram, Android stickers |
 | `the-leap-splash-final-frame.png` | 1080×1920 still of the finished logo | Posters, status updates, thumbnails |
 
@@ -21,6 +22,7 @@ brand orange gradient, in a phone-shaped 9:16 frame.
 | The dot leaps into place | 0.75 – 1.25 |
 | "the leap" rises in | 1.15 – 1.55 |
 | The loops hold the finished logo | 1.6 – 3.0 |
+| The video holds the finished logo | 1.6 – 4.0 |
 
 In the app the whole screen then fades away by 2.0 s; these files keep the
 logo on screen instead. The app also starts on flat orange (`#FF7A00`) and
@@ -42,3 +44,8 @@ the repo root:
 ```sh
 node brand-kit/the-leap-splash-animation/build.mjs
 ```
+
+The MP4 is encoded by `encode-mp4.m` with macOS's own video encoder, so
+rebuilding needs a Mac with the Command Line Tools; ffmpeg isn't needed.
+On a Mac, QuickTime Player shows the video's orange a touch lighter than the
+other files; phones, browsers and social apps show it true to colour.
