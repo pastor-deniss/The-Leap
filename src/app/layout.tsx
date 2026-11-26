@@ -7,6 +7,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { BottomNav } from "@/components/bottom-nav";
 import { CompanionLauncher } from "@/components/companion-launcher";
 import { OfflineSupport } from "@/components/offline/offline-support";
+import { SplashScreen } from "@/components/splash-screen";
 import { getAuthedUser, getProfile } from "@/lib/supabase/authorize";
 import {
   getAdminNotificationCounts,
@@ -92,6 +93,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
+        <SplashScreen />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <OfflineSupport
             userId={user?.id ?? null}

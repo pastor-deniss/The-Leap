@@ -1,0 +1,135 @@
+/*
+ * Timeline (seconds from first paint):
+ *   0.20 – 1.10  the arc draws from the top of the L, down and up the sweep
+ *   1.00 – 1.65  the dot leaps off the end of the arc and lands in place
+ *   1.50 – 2.00  the wordmark rises in
+ *   2.20 – 2.65  the screen fades away, the mark easing slightly forward
+ */
+
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Brand gradient, as on the app icon (top-left to bottom-right). */
+  background: linear-gradient(135deg, #ff9e2c 0%, #f57c00 50%, #e85a0e 100%);
+  animation: splash-out 0.45s ease-in 2.2s forwards;
+}
+
+:global(html[data-splash="seen"]) .splash {
+  display: none;
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  animation: stage-out 0.45s ease-in 2.2s forwards;
+}
+
+.mark {
+  width: min(40vw, 168px);
+  height: min(40vw, 168px);
+  overflow: visible;
+}
+
+.arc {
+  stroke-dasharray: 1 2;
+  stroke-dashoffset: 1;
+  opacity: 0;
+  animation: arc-draw 0.9s cubic-bezier(0.65, 0, 0.35, 1) 0.2s forwards;
+}
+
+.dotLeap {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  opacity: 0;
+  animation: dot-leap 0.65s cubic-bezier(0.33, 0, 0.2, 1) 1s forwards;
+}
+
+.wordmark {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.875rem;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: word-in 0.5s ease-out 1.5s forwards;
+}
+
+@keyframes arc-draw {
+  0% {
+    opacity: 1;
+    stroke-dashoffset: 1;
+  }
+  100% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Translations are in the mark's 100-unit space: the dot sets off from the
+ * arc's tip (73,50), arcs over its resting place (76,28), and lands with a
+ * small squash. */
+@keyframes dot-leap {
+  0% {
+    opacity: 0;
+    transform: translate(-3px, 22px) scale(0.3);
+  }
+  15% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-1px, -12px) scale(1.05);
+  }
+  78% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1.12, 0.82);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes word-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes stage-out {
+  to {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes splash-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arc,
+  .dotLeap,
+  .wordmark {
+    animation: none;
+    opacity: 1;
+    stroke-dashoffset: 0;
+    transform: none;
+  }
+  .stage {
+    animation: none;
+  }
+  .splash {
+    animation: splash-out 0.3s linear 1.6s forwards;
+  }
+}
