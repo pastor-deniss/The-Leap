@@ -1,0 +1,44 @@
+# The Leap splash animation
+
+The animation the app plays when it opens: the Leap arc draws itself, the dot
+leaps off its tip and lands, then "the leap" rises in beneath. White on the
+brand orange gradient, in a phone-shaped 9:16 frame.
+
+## Files
+
+| File | What it is | Use it for |
+|---|---|---|
+| `the-leap-splash-animation.svg` | Vector, 1080×1920, plays once and stays on the logo | Websites and presentations that show SVG; sharp at any size. Open it in a browser and refresh to replay. |
+| `the-leap-splash-animation.gif` | 540×960, loops every 3 s | WhatsApp, email, chats: anywhere that only takes GIFs |
+| `the-leap-splash-animation.webp` | 720×1280, loops every 3 s, sharper and smaller than the GIF | Websites, Telegram, Android stickers |
+| `the-leap-splash-final-frame.png` | 1080×1920 still of the finished logo | Posters, status updates, thumbnails |
+
+## Timing
+
+| | Seconds |
+|---|---|
+| The arc draws, down the stem and up the sweep | 0.15 – 0.85 |
+| The dot leaps into place | 0.75 – 1.25 |
+| "the leap" rises in | 1.15 – 1.55 |
+| The loops hold the finished logo | 1.6 – 3.0 |
+
+In the app the whole screen then fades away by 2.0 s; these files keep the
+logo on screen instead. The app also starts on flat orange (`#FF7A00`) and
+washes into the gradient, to blend with Android's launch screen; these files
+open straight on the gradient.
+
+## Colours
+
+- Gradient `#FF9E2C` → `#F57C00` → `#E85A0E`, top-left to bottom-right
+- Mark and lettering `#FFFFFF`
+
+## Rebuilding
+
+The files are generated from the app's own mark geometry and timing
+(`src/components/brand-mark.tsx`, `src/components/splash-screen.*`) and the
+outlined lettering in `../the-leap-logo/`. After changing either, run from
+the repo root:
+
+```sh
+node brand-kit/the-leap-splash-animation/build.mjs
+```
