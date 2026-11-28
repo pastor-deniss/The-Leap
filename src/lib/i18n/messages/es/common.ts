@@ -10,6 +10,11 @@ export const common: CommonMessages = {
     nothingSaved: "Aún no hay nada guardado. Los devocionales, los días de tus recorridos y los pasajes bíblicos que abras con conexión se guardan aquí para leerlos sin conexión.",
     retry: "Reintentar",
   },
+  install: {
+    title: "Instala la app The Leap",
+    iosSteps: "Para instalarla en iPhone: toca el botón Compartir y luego «Añadir a pantalla de inicio».",
+    close: "Cerrar",
+  },
   themeToggle: {
     toLight: "Cambiar a modo claro",
     toDark: "Cambiar a modo oscuro",

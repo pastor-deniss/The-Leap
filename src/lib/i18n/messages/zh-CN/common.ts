@@ -10,6 +10,11 @@ export const common: CommonMessages = {
     nothingSaved: "尚未保存任何内容。联网时打开的灵修、旅程日和经文会保存在这里，供离线阅读。",
     retry: "重试",
   },
+  install: {
+    title: "安装 The Leap 应用",
+    iosSteps: "在 iPhone 上安装：轻点“分享”按钮，然后选择“添加到主屏幕”。",
+    close: "关闭",
+  },
   themeToggle: {
     toLight: "切换到浅色模式",
     toDark: "切换到深色模式",

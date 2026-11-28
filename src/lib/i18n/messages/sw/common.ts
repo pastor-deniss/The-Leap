@@ -10,6 +10,11 @@ export const common: CommonMessages = {
     nothingSaved: "Bado hakuna kilichohifadhiwa. Ibada, siku za safari na Maandiko unayofungua ukiwa mtandaoni huhifadhiwa hapa ili usome bila mtandao.",
     retry: "Jaribu tena",
   },
+  install: {
+    title: "Sakinisha programu ya The Leap",
+    iosSteps: "Kusakinisha kwenye iPhone: gusa kitufe cha Shiriki, kisha “Ongeza kwenye Skrini ya Mwanzo”.",
+    close: "Funga",
+  },
   themeToggle: {
     toLight: "Badili kwenda mwonekano wa mwanga",
     toDark: "Badili kwenda mwonekano wa giza",

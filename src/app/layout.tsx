@@ -8,6 +8,8 @@ import { BottomNav } from "@/components/bottom-nav";
 import { CompanionLauncher } from "@/components/companion-launcher";
 import { OfflineSupport } from "@/components/offline/offline-support";
 import { SplashScreen } from "@/components/splash-screen";
+import { InstallPrompt } from "@/components/install-prompt";
+import { InstallPromptCapture } from "@/components/install-prompt-capture";
 import { getAuthedUser, getProfile } from "@/lib/supabase/authorize";
 import {
   getAdminNotificationCounts,
@@ -94,6 +96,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         <SplashScreen />
+        <InstallPromptCapture />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <OfflineSupport
             userId={user?.id ?? null}
@@ -106,6 +109,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           <div className={user ? "flex flex-1 flex-col pb-16" : "flex flex-1 flex-col"}>
             {children}
           </div>
+          <InstallPrompt dict={dict.common.install} raised={!!user} />
           {user && <CompanionLauncher dict={dict.companion} />}
           {user && (
             // Badge counts stream in after the page paints, rather than

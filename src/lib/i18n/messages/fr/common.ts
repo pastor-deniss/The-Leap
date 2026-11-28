@@ -10,6 +10,11 @@ export const common: CommonMessages = {
     nothingSaved: "Rien d'enregistré pour l'instant. Les méditations, jours de parcours et passages de l'Écriture que tu ouvres en ligne sont gardés ici pour une lecture hors ligne.",
     retry: "Réessayer",
   },
+  install: {
+    title: "Installer l'app The Leap",
+    iosSteps: "Pour l'installer sur iPhone : touche le bouton Partager, puis « Sur l'écran d'accueil ».",
+    close: "Fermer",
+  },
   themeToggle: {
     toLight: "Passer en mode clair",
     toDark: "Passer en mode sombre",

@@ -17,6 +17,12 @@ export const common = {
     nothingSaved: "Nothing saved yet. Devotions, journey days and Scripture you open while online are kept here for offline reading.",
     retry: "Try again",
   },
+  /** Brief “install the app” prompt (InstallPrompt). */
+  install: {
+    title: "Install The Leap app",
+    iosSteps: "To install on iPhone: tap the Share button, then “Add to Home Screen”.",
+    close: "Close",
+  },
   themeToggle: {
     toLight: "Switch to light mode",
     toDark: "Switch to dark mode",

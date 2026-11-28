@@ -10,6 +10,11 @@ export const common: CommonMessages = {
     nothingSaved: "Noch nichts gespeichert. Andachten, Tage deiner Glaubensreise und Bibeltexte, die du online öffnest, werden hier zum Offline-Lesen aufbewahrt.",
     retry: "Erneut versuchen",
   },
+  install: {
+    title: "The-Leap-App installieren",
+    iosSteps: "So installierst du sie auf dem iPhone: Tippe auf „Teilen“ und dann auf „Zum Home-Bildschirm“.",
+    close: "Schließen",
+  },
   themeToggle: {
     toLight: "Zum hellen Modus wechseln",
     toDark: "Zum dunklen Modus wechseln",
