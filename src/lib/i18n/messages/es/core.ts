@@ -59,6 +59,8 @@ export const core: CoreMessages = {
       "Si existe una cuenta con ese correo, el enlace para restablecer la contraseña ya va en camino. Revisa tu bandeja de entrada (y la carpeta de spam).",
     resetLinkInvalid:
       "Ese enlace no es válido o ya caducó. Por favor, solicita uno nuevo.",
+    confirmLinkUsed:
+      "Ese enlace de confirmación ya se usó o caducó. Si ya confirmaste tu correo, inicia sesión aquí con tu correo y contraseña.",
     backToSignIn: "Volver a iniciar sesión",
     newPasswordTitle: "Elige una nueva contraseña",
     newPassword: "Nueva contraseña",

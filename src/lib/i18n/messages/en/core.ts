@@ -59,6 +59,8 @@ export const core: CoreMessages = {
       "If an account exists for that email, a reset link is on its way. Check your inbox (and spam folder).",
     resetLinkInvalid:
       "That reset link is invalid or has expired. Please request a new one.",
+    confirmLinkUsed:
+      "That confirmation link has already been used or has expired. If you confirmed your email, just sign in here with your email and password.",
     backToSignIn: "Back to sign in",
     newPasswordTitle: "Choose a new password",
     newPassword: "New password",

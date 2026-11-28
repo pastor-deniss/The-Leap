@@ -59,6 +59,8 @@ export const core: CoreMessages = {
       "Ikiwa akaunti ya barua pepe hiyo ipo, kiungo kimetumwa. Angalia kisanduku chako (na folda ya spam).",
     resetLinkInvalid:
       "Kiungo hicho si sahihi au muda wake umeisha. Tafadhali omba kingine.",
+    confirmLinkUsed:
+      "Kiungo hicho cha uthibitisho kimeshatumika au muda wake umeisha. Ikiwa umeshathibitisha barua pepe yako, ingia hapa kwa barua pepe na nenosiri lako.",
     backToSignIn: "Rudi kuingia",
     newPasswordTitle: "Chagua nywila mpya",
     newPassword: "Nywila mpya",

@@ -23,6 +23,8 @@ export default async function SignInPage(props: PageProps<"/sign-in">) {
     ? searchParams.mode[0]
     : searchParams.mode;
   const initialMode = modeParam === "sign-up" ? "sign-up" : "sign-in";
+  // /auth/confirm sends people here when a confirmation link fails.
+  const confirmLinkUsed = searchParams.error === "confirm-link";
   const locale = await getLocale();
   const dict = getDictionary(locale);
 
@@ -31,6 +33,7 @@ export default async function SignInPage(props: PageProps<"/sign-in">) {
       <PatternBorder />
       <SignInForm
         initialMode={initialMode}
+        notice={confirmLinkUsed ? dict.signIn.confirmLinkUsed : undefined}
         dict={dict.signIn}
         countries={localizedCountries(locale)}
       />

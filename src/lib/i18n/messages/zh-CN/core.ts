@@ -57,6 +57,8 @@ export const core: CoreMessages = {
     resetLinkSent:
       "如果该邮箱已注册账户，重置链接正在发送中。请查看你的收件箱（以及垃圾邮件文件夹）。",
     resetLinkInvalid: "该重置链接无效或已过期，请重新申请。",
+    confirmLinkUsed:
+      "该确认链接已被使用或已过期。如果你已确认邮箱，请直接在此用邮箱和密码登录。",
     backToSignIn: "返回登录",
     newPasswordTitle: "设置新密码",
     newPassword: "新密码",

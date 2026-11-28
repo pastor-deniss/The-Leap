@@ -28,10 +28,13 @@ type Country = { code: string; name: string };
 
 export function SignInForm({
   initialMode = "sign-in",
+  notice,
   dict,
   countries,
 }: {
   initialMode?: Mode;
+  /** Shown above the form, e.g. why /auth/confirm sent the person here. */
+  notice?: string;
   dict: Dictionary["signIn"];
   /** Nationality options, already localized and sorted (see localizedCountries). */
   countries: Country[];
@@ -44,6 +47,10 @@ export function SignInForm({
       <h1 className="text-2xl font-heading font-semibold">
         {isSignIn ? dict.welcomeBack : dict.createAccount}
       </h1>
+
+      {notice && isSignIn && (
+        <p className="text-center text-sm text-muted-foreground">{notice}</p>
+      )}
 
       {/* Keyed by mode so useActionState resets — otherwise an error from
           the sign-in attempt would linger after switching to sign-up. */}

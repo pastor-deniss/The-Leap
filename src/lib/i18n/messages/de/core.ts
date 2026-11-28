@@ -59,6 +59,8 @@ export const core: CoreMessages = {
       "Falls es ein Konto mit dieser E-Mail-Adresse gibt, ist ein Link unterwegs. Schau in deinen Posteingang (und in den Spam-Ordner).",
     resetLinkInvalid:
       "Dieser Link ist ungültig oder abgelaufen. Bitte fordere einen neuen an.",
+    confirmLinkUsed:
+      "Dieser Bestätigungslink wurde bereits verwendet oder ist abgelaufen. Wenn du deine E-Mail-Adresse bestätigt hast, melde dich einfach hier mit E-Mail und Passwort an.",
     backToSignIn: "Zurück zur Anmeldung",
     newPasswordTitle: "Neues Passwort wählen",
     newPassword: "Neues Passwort",

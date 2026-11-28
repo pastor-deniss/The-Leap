@@ -2,7 +2,8 @@ import { type EmailOtpType } from "@supabase/supabase-js";
 import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
-// Landing point for links in Supabase auth emails (password reset). Accepts
+// Landing point for links in Supabase auth emails (sign-up confirmation and
+// password reset). Accepts
 // both link shapes Supabase can send:
 //  - ?code=…            the default {{ .ConfirmationURL }} template (PKCE);
 //                       only works in the browser that requested the email
@@ -32,7 +33,16 @@ export async function GET(request: NextRequest) {
     ok = !error;
   }
 
-  return NextResponse.redirect(
-    new URL(ok ? next : "/forgot-password?error=link", origin),
-  );
+  if (ok) {
+    return NextResponse.redirect(new URL(next, origin));
+  }
+
+  // A failed sign-up confirmation is usually a second tap on a link that
+  // already worked — e.g. the mail app first opened it in another browser
+  // (Gmail on iPhone hands links to Chrome/the Google app), confirming the
+  // account there. The account is fine, so point at sign-in, not at a
+  // password reset.
+  const failure =
+    type === "recovery" ? "/forgot-password?error=link" : "/sign-in?error=confirm-link";
+  return NextResponse.redirect(new URL(failure, origin));
 }

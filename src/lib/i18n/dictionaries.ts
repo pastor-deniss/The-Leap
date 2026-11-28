@@ -69,6 +69,7 @@ export type CoreMessages = {
     sendResetLink: string;
     resetLinkSent: string;
     resetLinkInvalid: string;
+    confirmLinkUsed: string;
     backToSignIn: string;
     newPasswordTitle: string;
     newPassword: string;

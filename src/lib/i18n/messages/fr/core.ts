@@ -59,6 +59,8 @@ export const core: CoreMessages = {
       "Si un compte existe pour cette adresse, un lien de réinitialisation est en route. Vérifie ta boîte de réception (et tes courriers indésirables).",
     resetLinkInvalid:
       "Ce lien de réinitialisation n'est pas valide ou a expiré. Merci d'en demander un nouveau.",
+    confirmLinkUsed:
+      "Ce lien de confirmation a déjà été utilisé ou a expiré. Si tu as confirmé ton adresse, connecte-toi simplement ici avec ton e-mail et ton mot de passe.",
     backToSignIn: "Retour à la connexion",
     newPasswordTitle: "Choisis un nouveau mot de passe",
     newPassword: "Nouveau mot de passe",
